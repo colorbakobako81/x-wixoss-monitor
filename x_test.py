@@ -2,6 +2,7 @@ import os
 import requests
 import xml.etree.ElementTree as ET
 from pathlib import Path
+import time
 
 RSS_URL = "https://rss.app/feeds/M9nNnEwGtsshGgdQ.xml"
 DISCORD_WEBHOOK_URL = os.environ["DISCORD_WEBHOOK_URL"]
@@ -26,6 +27,25 @@ if SEEN_FILE.exists():
     seen_posts = set(SEEN_FILE.read_text(encoding="utf-8").splitlines())
 else:
     seen_posts = set()
+
+# 初回実行
+if not seen_posts:
+    for item in items:
+        link = item.findtext("link", "")
+        guid = item.findtext("guid", "")
+
+        post_id = guid or link
+
+        if post_id:
+            seen_posts.add(post_id)
+
+    SEEN_FILE.write_text(
+        "\n".join(seen_posts),
+        encoding="utf-8"
+    )
+
+    print(f"初回実行：{len(seen_posts)}件を既読として登録しました")
+    exit()
 
 # 新しい投稿だけ探す
 new_items = []
@@ -61,6 +81,9 @@ for post_id, title, link in reversed(new_items):
     print(f"Discordへ送信しました: {title}")
 
     seen_posts.add(post_id)
+
+    # Discordのレート制限対策
+    time.sleep(1)
 
 # 通知済み投稿を保存
 SEEN_FILE.write_text(

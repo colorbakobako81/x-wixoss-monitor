@@ -1,4 +1,4 @@
-name: Discord Test
+name: X Test
 
 on:
   workflow_dispatch:
@@ -8,10 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Discord message
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: |
-          curl -H "Content-Type: application/json" \
-            -d '{"content":"GitHub Actionsからのテスト通知です！"}' \
-            "$DISCORD_WEBHOOK"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run X test
+        run: python x_test.py

@@ -1,4 +1,4 @@
-name: Test
+name: Discord Test
 
 on:
   workflow_dispatch:
@@ -8,5 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Test
-        run: echo "GitHub Actions is working!"
+      - name: Send Discord message
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{"content":"GitHub Actionsからのテスト通知です！"}' \
+            "$DISCORD_WEBHOOK"

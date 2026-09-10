@@ -1,7 +1,27 @@
 name: X to Discord
 
 on:
+  schedule:
+    - cron: "1 3 * * *"
+    - cron: "2 3 * * *"
+    - cron: "5 3 * * *"
+
+    - cron: "31 3 * * *"
+    - cron: "32 3 * * *"
+    - cron: "35 3 * * *"
+
+    - cron: "31 8 * * *"
+    - cron: "32 8 * * *"
+    - cron: "35 8 * * *"
+
+    - cron: "1 9 * * *"
+    - cron: "2 9 * * *"
+    - cron: "5 9 * * *"
+
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   test:
@@ -15,3 +35,17 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python x_test.py
+
+      - name: Save seen posts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add seen_posts.txt
+
+          if git diff --cached --quiet; then
+            echo "記録する変更はありません"
+          else
+            git commit -m "Update seen posts"
+            git push
+          fi

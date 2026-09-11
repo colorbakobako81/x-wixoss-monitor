@@ -16,7 +16,7 @@ def get_posts():
     data = response.json()
 
     # FxTwitter APIのレスポンスから投稿一覧を取得
-    posts = data.get("tweets", [])
+    posts = data.get("results", [])
 
     return posts
 

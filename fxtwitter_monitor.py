@@ -43,11 +43,14 @@ def main():
 
     # seen_posts.txt がなければ初回実行
     if SEEN_FILE.exists():
-        seen_posts = set(
-            SEEN_FILE.read_text(encoding="utf-8").splitlines()
-        )
-    else:
-        seen_posts = set()
+    seen_posts = {
+        line.strip()
+        for line in SEEN_FILE.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    }
+else:
+    seen_posts = set()
+    print(f"既読ID数: {len(seen_posts)}")
 
     # 初回実行では現在の投稿を全部既読扱いにする
     if not seen_posts:

@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "xactions": "^3.5.0"
+  }
+}

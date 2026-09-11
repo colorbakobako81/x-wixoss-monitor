@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "xactions": "latest"
+    "xactions": "3.5.0"
   }
 }

@@ -2,7 +2,7 @@ import os
 import requests
 from pathlib import Path
 
-USERNAME = "wixoss_TCG"
+USERNAME = "mirudake3634"
 API_URL = f"https://api.fxtwitter.com/2/profile/{USERNAME}/statuses?count=20"
 
 DISCORD_WEBHOOK_URL = os.environ["DISCORD_WEBHOOK_URL"]

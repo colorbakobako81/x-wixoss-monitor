@@ -1,4 +1,4 @@
-name: XActions Test
+name: XActions Browser Test
 
 on:
   workflow_dispatch:
@@ -8,10 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: XActionsで投稿取得
-        run: npx xactions tweets wixoss_TCG --limit 5 --json
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run XActions browser scraper
+        env:
+          X_AUTH_TOKEN: ${{ secrets.X_AUTH_TOKEN }}
+        run: node xactions_browser_test.js

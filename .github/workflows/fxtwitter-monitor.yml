@@ -31,8 +31,8 @@ on:
     - cron: "10 10 * * *"
 
   workflow_dispatch:
-  
-  concurrency:
+
+concurrency:
   group: fxtwitter-monitor
   cancel-in-progress: false
 

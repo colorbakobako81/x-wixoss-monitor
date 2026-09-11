@@ -1,0 +1,18 @@
+name: FxTwitter Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest WIXOSS posts
+        run: |
+          curl -L --fail \
+            "https://api.fxtwitter.com/2/profile/wixoss_TCG/statuses?count=5" \
+            -o result.json
+
+          echo "取得成功"
+          cat result.json

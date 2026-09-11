@@ -15,8 +15,9 @@ def get_posts():
 
     data = response.json()
 
-    # FxTwitter APIのレスポンスから投稿一覧を取得
     posts = data.get("results", [])
+
+    print(f"FxTwitterから {len(posts)}件取得しました")
 
     return posts
 
@@ -41,21 +42,23 @@ def main():
 
     print(f"取得件数: {len(posts)}")
 
-    # seen_posts.txt がなければ初回実行
+    # seen_posts.txt を読み込む
     if SEEN_FILE.exists():
-    seen_posts = {
-        line.strip()
-        for line in SEEN_FILE.read_text(encoding="utf-8").splitlines()
-        if line.strip()
-    }
-else:
-    seen_posts = set()
+        seen_posts = {
+            line.strip()
+            for line in SEEN_FILE.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        }
+    else:
+        seen_posts = set()
+
     print(f"既読ID数: {len(seen_posts)}")
 
     # 初回実行では現在の投稿を全部既読扱いにする
     if not seen_posts:
         for post in posts:
             post_id = get_post_id(post)
+
             if post_id:
                 seen_posts.add(post_id)
 
@@ -67,6 +70,7 @@ else:
         print(f"初回実行：{len(seen_posts)}件を既読として登録しました")
         return
 
+    # 新しい投稿を探す
     new_posts = []
 
     for post in posts:
